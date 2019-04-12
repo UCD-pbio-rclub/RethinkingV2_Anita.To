@@ -81,5 +81,5 @@ Answer:
 
 Now suppose there are four cards: B/B, B/W, W/W, and another B/B. Again suppose a card is drawn from the bag and a black side appears face up. Again calculate the probability that the other side is black.
 
-Answer:
+Answer: 
 
