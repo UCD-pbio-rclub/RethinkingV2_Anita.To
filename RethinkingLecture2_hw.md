@@ -103,7 +103,41 @@ Use the values in samples to answer the questions that follow.
 How much posterior probability lies below p = 0.2?
 
 ```r
-# library(rethinking)
+library(rethinking)
+```
+
+```
+## Loading required package: rstan
+```
+
+```
+## Loading required package: ggplot2
+```
+
+```
+## Loading required package: StanHeaders
+```
+
+```
+## rstan (Version 2.18.2, GitRev: 2e1f913d3ca3)
+```
+
+```
+## For execution on a local, multicore CPU with excess RAM we recommend calling
+## options(mc.cores = parallel::detectCores()).
+## To avoid recompilation of unchanged Stan programs, we recommend calling
+## rstan_options(auto_write = TRUE)
+```
+
+```
+## Loading required package: parallel
+```
+
+```
+## rethinking (Version 1.88)
+```
+
+```r
 # dens(samples)
 sum(posterior[p_grid < 0.2])
 ```
@@ -162,25 +196,40 @@ sum(samples > 0.2 & samples < 0.8)/1e4
 20% of the posterior probability lies below which value of p?
 
 ```r
-knitr::opts_chunk$set(echo = TRUE)
+quantile(samples, 0.2)
+```
+
+```
+##       20% 
+## 0.5195195
 ```
 
 ## 3E5. 
 20% of the posterior probability lies above which value of p?
 
 ```r
-knitr::opts_chunk$set(echo = TRUE)
+quantile(samples, 1) - quantile(samples, 0.8)
+```
+
+```
+##      100% 
+## 0.2202202
 ```
 
 ## 3E6. 
 Which values of p contain the narrowest interval equal to 66% of the posterior probability?
 
 ```r
-knitr::opts_chunk$set(echo = TRUE)
+HPDI(samples, prob = 0.66)
+```
+
+```
+##     |0.66     0.66| 
+## 0.5205205 0.7847848
 ```
 
 ## 3E7. 
-Which values of p contain 66% of the posterior probability, assuming equal posterior probabil- ity both below and above the interval?
+Which values of p contain 66% of the posterior probability, assuming equal posterior probabil      ity both below and above the interval?
 
 ```r
 knitr::opts_chunk$set(echo = TRUE)
@@ -189,28 +238,44 @@ knitr::opts_chunk$set(echo = TRUE)
 # Chapter 3 - Medium Problems
 
 ## 3M1. 
-
+Suppose the globe tossing data had turned out to be 8 water in 15 tosses. Construct the poste-
+rior distribution, using grid approximation. Use the same flat prior as before.
 
 ```r
-knitr::opts_chunk$set(echo = TRUE)
+p_grid <- seq( from=0 , to=1 , length.out=1000 )
+prior <- rep( 1 , 1000 )
+likelihood <- dbinom(  8, size=15 , prob=p_grid )
+posterior <- likelihood * prior
+posterior <- posterior / sum(posterior)
+set.seed(100)
+samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
+dens(samples)
 ```
 
-## 3M2. 
+![](RethinkingLecture2_hw_files/figure-html/3M1-1.png)<!-- -->
 
+## 3M2. 
+Draw 10,000 samples from the grid approximation from above. Then use the samples to cal-
+culate the 90% HPDI for p.
 
 ```r
-knitr::opts_chunk$set(echo = TRUE)
+HPDI(samples, prob = 0.9)
+```
+
+```
+##      |0.9      0.9| 
+## 0.3243243 0.7157157
 ```
 
 ## 3M3. 
-
+Construct a posterior predictive check for this model and data. This means simulate the distribution of samples, averaging over the posterior uncertainty in p. What is the probability of observing 8 water in 15 tosses?
 
 ```r
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## 3M4. 
-
+Using the posterior distribution constructed from the new (8/15) data, now calculate the probability of observing 6 water in 9 tosses.
 
 ```r
 knitr::opts_chunk$set(echo = TRUE)

@@ -183,7 +183,7 @@ HPDI(samples, prob = 0.9)
 ```
 
 ## 3M3. 
-Construct a posterior predictive check for this model and data. This means simulate the distri- bution of samples, averaging over the posterior uncertainty in p. What is the probability of observing 8 water in 15 tosses?
+Construct a posterior predictive check for this model and data. This means simulate the distribution of samples, averaging over the posterior uncertainty in p. What is the probability of observing 8 water in 15 tosses?
 ```{r 3M3}
 knitr::opts_chunk$set(echo = TRUE)
 ```
