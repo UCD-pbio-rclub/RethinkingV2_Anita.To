@@ -115,7 +115,7 @@ Use the values in samples to answer the questions that follow.
 ## 3E1. 
 How much posterior probability lies below p = 0.2?
 ```{r 3E1}
-# library(rethinking)
+library(rethinking)
 # dens(samples)
 sum(posterior[p_grid < 0.2])
 sum(samples < 0.2)/1e4
